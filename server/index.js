@@ -2,6 +2,7 @@ import app from './app.js'
 import { sequelize } from './database/db.js'
 
 import './models/Books.js'
+import './models/Authors.js'
 
 async function main() {
   try {
