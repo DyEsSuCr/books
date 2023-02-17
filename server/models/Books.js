@@ -15,7 +15,7 @@ export const Books = sequelize.define('books', {
     type: DataTypes.STRING(60),
     allowNull: false,
   },
-  img: {
+  image: {
     type: DataTypes.BLOB,
     allowNull: false,
   },
