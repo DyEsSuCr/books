@@ -1,6 +1,8 @@
 import app from './app.js'
 import { sequelize } from './database/db.js'
 
+import './models/Books.js'
+
 async function main() {
   try {
     await sequelize.sync({ force: true })
