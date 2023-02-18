@@ -4,6 +4,7 @@ import { sequelize } from './database/db.js'
 import './models/Books.js'
 import './models/Authors.js'
 import './models/Genres.js'
+import './models/Asociations.js'
 
 async function main() {
   try {
