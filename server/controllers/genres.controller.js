@@ -1,7 +1,16 @@
 import { Genres } from '../models/Genres.js'
 
 export const getGenre = async (req, res) => {
-  res.json({ messaje: 'GET Genre' })
+  const { id } = req.params
+
+  const genre = await Genres.findOne({
+    where: {
+      id,
+    },
+    attributes: ['id', 'name', 'createdAt', 'updatedAt'],
+  })
+
+  res.status(200).json(genre)
 }
 
 export const getGenres = async (req, res) => {
@@ -9,6 +18,7 @@ export const getGenres = async (req, res) => {
     where: {
       state: true,
     },
+    attributes: ['id', 'name', 'createdAt', 'updatedAt'],
   })
 
   if (genres.length <= 0) return res.status(200).json({ messaje: 'No hay generos' })
@@ -27,7 +37,21 @@ export const postGenres = async (req, res) => {
 }
 
 export const putGenres = async (req, res) => {
-  res.json({ messaje: 'PUT Genres' })
+  const { id } = req.params
+  const { name } = req.body
+
+  const genreUpdate = await Genres.findOne({
+    where: {
+      id,
+    },
+    attributes: ['id', 'name', 'createdAt', 'updatedAt'],
+  })
+
+  genreUpdate.name = name
+
+  await genreUpdate.save()
+
+  res.status(200).json(genreUpdate)
 }
 
 export const delGenres = async (req, res) => {
