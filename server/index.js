@@ -7,7 +7,8 @@ import './models/Genres.js'
 
 async function main() {
   try {
-    await sequelize.sync({ force: true })
+    await sequelize.sync()
+    // await sequelize.sync({ force: true })
 
     app.listen(app.get('port'), () => {
       console.log(`Server on port ${app.get('port')}`)
