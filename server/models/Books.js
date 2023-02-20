@@ -16,7 +16,7 @@ export const Books = sequelize.define('books', {
     allowNull: false,
   },
   image: {
-    type: DataTypes.BLOB,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   publiched_date: {

@@ -4,7 +4,7 @@ export const getBook = async (req, res) => {
   const { id } = req.params
 
   try {
-    const book = await Books.findAll({
+    const book = await Books.findOne({
       where: {
         id,
       },
@@ -23,7 +23,7 @@ export const getBook = async (req, res) => {
 
 export const getBooks = async (req, res) => {
   try {
-    const books = await Books.findOne({
+    const books = await Books.findAll({
       where: {
         state: true,
       },
