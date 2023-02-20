@@ -1,11 +1,41 @@
 import { Books } from '../models/Books.js'
 
 export const getBook = async (req, res) => {
-  res.json({ messaje: 'GET Book' })
+  const { id } = req.params
+
+  try {
+    const book = await Books.findAll({
+      where: {
+        id,
+      },
+      attributes: {
+        exclude: ['state'],
+      },
+    })
+
+    if (book.length <= 0) return res.status(200).json({ messaje: 'No hay Libros' })
+
+    res.status(200).json(book)
+  } catch (err) {
+    res.status(404).json({ error: err })
+  }
 }
 
 export const getBooks = async (req, res) => {
-  res.json({ messaje: 'GET Books' })
+  try {
+    const books = await Books.findOne({
+      where: {
+        state: true,
+      },
+      attributes: {
+        exclude: ['state'],
+      },
+    })
+
+    res.status(200).json(books)
+  } catch (err) {
+    res.status(404).json({ error: err })
+  }
 }
 
 export const postBooks = async (req, res) => {
