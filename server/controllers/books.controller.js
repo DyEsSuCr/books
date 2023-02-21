@@ -39,7 +39,19 @@ export const getBooks = async (req, res) => {
 }
 
 export const postBooks = async (req, res) => {
-  res.json({ messaje: 'POST Books' })
+  try {
+    const { tittle, subtitle } = req.body
+
+    const newBook = await Books.create({
+      tittle,
+      subtitle,
+      image: `http://localhost:3000/images/${req.file.filename}`,
+    })
+
+    res.json(newBook)
+  } catch (err) {
+    res.status(404).json({ error: err })
+  }
 }
 
 export const putBooks = async (req, res) => {
