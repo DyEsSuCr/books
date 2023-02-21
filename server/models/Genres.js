@@ -9,6 +9,7 @@ export const Genres = sequelize.define('genres', {
   },
   name: {
     type: DataTypes.STRING(40),
+    unique: true
   },
   state: {
     type: DataTypes.BOOLEAN,

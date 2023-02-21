@@ -1,4 +1,6 @@
 import { Books } from '../models/Books.js'
+import { Authors } from '../models/Authors.js'
+import { Genres } from '../models/Genres.js'
 
 export const getBook = async (req, res) => {
   const { id } = req.params
@@ -39,14 +41,29 @@ export const getBooks = async (req, res) => {
 }
 
 export const postBooks = async (req, res) => {
+  const { tittle, subtitle, genres, authors } = req.body
+
   try {
-    const { tittle, subtitle } = req.body
+    const allGenres = await Genres.findAll({
+      where: {
+        name: genres,
+      },
+    })
+
+    const allAuthor = await Authors.findAll({
+      where: {
+        name: authors,
+      },
+    })
 
     const newBook = await Books.create({
       tittle,
       subtitle,
       image: `http://localhost:3000/images/${req.file.filename}`,
     })
+
+    await newBook.setGenres(allGenres)
+    await newBook.setAuthors(allAuthor)
 
     res.json(newBook)
   } catch (err) {
