@@ -2,6 +2,22 @@ import { Books } from '../models/Books.js'
 import { Authors } from '../models/Authors.js'
 import { Genres } from '../models/Genres.js'
 
+export const getBookAuthors = async (req, res) => {
+  try {
+    const bookGenres = await Books.findByPk(req.params.id)
+
+    const result = await bookGenres.getAuthors({
+      attributes: {
+        exclude: ['state', 'createdAt', 'updatedAt'],
+      },
+    })
+
+    res.status(200).json(result)
+  } catch (err) {
+    res.status(404).json({ error: err })
+  }
+}
+
 export const getBook = async (req, res) => {
   const { id } = req.params
 
@@ -12,6 +28,9 @@ export const getBook = async (req, res) => {
       },
       attributes: {
         exclude: ['state'],
+      },
+      include: {
+        model: Genres,
       },
     })
 
@@ -31,6 +50,10 @@ export const getBooks = async (req, res) => {
       },
       attributes: {
         exclude: ['state'],
+      },
+      include: {
+        model: Genres,
+        attributes: ['name'],
       },
     })
 
