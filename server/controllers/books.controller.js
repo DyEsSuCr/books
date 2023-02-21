@@ -59,5 +59,17 @@ export const putBooks = async (req, res) => {
 }
 
 export const delBooks = async (req, res) => {
-  res.json({ messaje: 'DELETE Books' })
+  const { id } = req.params
+
+  try {
+    const book = await Books.findByPk(id)
+
+    book.state = false
+
+    await book.save()
+
+    res.status(200).json({ messaje: 'Eliminado' })
+  } catch (err) {
+    res.status(404).json({ error: err })
+  }
 }
