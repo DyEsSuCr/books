@@ -3,6 +3,7 @@ import {
   delBooks,
   getBook,
   getBookAuthors,
+  getBookGenres,
   getBooks,
   postBooks,
   putBooks,
@@ -12,6 +13,7 @@ const router = Router()
 
 router.get('/books/:id', getBook)
 router.get('/books/:id/authors', getBookAuthors)
+router.get('/books/:id/genres', getBookGenres)
 router.get('/books/', getBooks)
 router.post('/books/', postBooks)
 router.put('/books/:id', putBooks)

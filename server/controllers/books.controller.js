@@ -4,9 +4,25 @@ import { Genres } from '../models/Genres.js'
 
 export const getBookAuthors = async (req, res) => {
   try {
-    const bookGenres = await Books.findByPk(req.params.id)
+    const bookAuthor = await Books.findByPk(req.params.id)
 
-    const result = await bookGenres.getAuthors({
+    const result = await bookAuthor.getAuthors({
+      attributes: {
+        exclude: ['state', 'createdAt', 'updatedAt'],
+      },
+    })
+
+    res.status(200).json(result)
+  } catch (err) {
+    res.status(404).json({ error: err })
+  }
+}
+
+export const getBookGenres = async (req, res) => {
+  try {
+    const boookGenres = await Books.findByPk(req.params.id)
+
+    const result = await boookGenres.getGenres({
       attributes: {
         exclude: ['state', 'createdAt', 'updatedAt'],
       },
