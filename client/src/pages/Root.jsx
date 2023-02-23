@@ -1,10 +1,12 @@
 import { Outlet } from 'react-router-dom'
 
+import { NavBar } from '../components/NavBar'
+
 export function Root() {
   return (
     <>
       <main>
-        <h1 className="text-indigo-400">Biblioteca</h1>
+        <NavBar />
         <Outlet />
       </main>
     </>
