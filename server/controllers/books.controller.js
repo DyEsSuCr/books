@@ -35,24 +35,19 @@ export const getBookGenres = async (req, res) => {
 }
 
 export const getBook = async (req, res) => {
-  const { id } = req.params
-
   try {
-    const book = await Books.findOne({
+    const getOneBook = await Books.findOne({
       where: {
-        id,
+        id: req.params.id,
       },
       attributes: {
         exclude: ['state'],
       },
-      include: {
-        model: Genres,
-      },
     })
 
-    if (book.length <= 0) return res.status(200).json({ messaje: 'No hay Libros' })
+    if (getOneBook.length <= 0) return res.status(200).json({ messaje: 'Book not found' })
 
-    res.status(200).json(book)
+    res.status(200).json(getOneBook)
   } catch (err) {
     res.status(404).json({ error: err })
   }
@@ -60,20 +55,16 @@ export const getBook = async (req, res) => {
 
 export const getBooks = async (req, res) => {
   try {
-    const books = await Books.findAll({
+    const getAllBooks = await Books.findAll({
       where: {
         state: true,
       },
       attributes: {
         exclude: ['state'],
       },
-      include: {
-        model: Genres,
-        attributes: ['name'],
-      },
     })
 
-    res.status(200).json(books)
+    res.status(200).json(getAllBooks)
   } catch (err) {
     res.status(404).json({ error: err })
   }
@@ -115,16 +106,14 @@ export const putBooks = async (req, res) => {
 }
 
 export const delBooks = async (req, res) => {
-  const { id } = req.params
-
   try {
-    const book = await Books.findByPk(id)
+    const delBook = await Books.findByPk(req.params.id)
 
-    book.state = false
+    delBook.state = false
 
-    await book.save()
+    await delBook.save()
 
-    res.status(200).json({ messaje: 'Eliminado' })
+    res.status(200).json({ messaje: 'Book Deleted' })
   } catch (err) {
     res.status(404).json({ error: err })
   }
