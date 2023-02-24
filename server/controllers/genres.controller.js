@@ -1,36 +1,34 @@
 import { Genres } from '../models/Genres.js'
 
 export const getGenre = async (req, res) => {
-  const { id } = req.params
-
   try {
-    const genre = await Genres.findOne({
+    const getOneGenre = await Genres.findOne({
       where: {
-        id,
+        id: req.params.id,
       },
       attributes: ['id', 'name', 'createdAt', 'updatedAt'],
     })
 
-    res.status(200).json(genre)
+    res.status(200).json(getOneGenre)
   } catch (err) {
-    res.status(404).json({ error: err })
+    res.status(404).json({ messaje: 'Genre Not Found', error: err })
   }
 }
 
 export const getGenres = async (req, res) => {
   try {
-    const genres = await Genres.findAll({
+    const getAllGenres = await Genres.findAll({
       where: {
         state: true,
       },
       attributes: ['id', 'name', 'createdAt', 'updatedAt'],
     })
 
-    if (genres.length <= 0) return res.status(200).json({ messaje: 'No hay generos' })
+    if (getAllGenres.length <= 0) return res.status(200).json({ messaje: 'No hay generos' })
 
-    res.status(200).json(genres)
+    res.status(200).json(getAllGenres)
   } catch (err) {
-    res.status(404).json({ error: err })
+    res.status(404).json({ messaje: 'Genres Not Found', error: err })
   }
 }
 
@@ -38,22 +36,25 @@ export const postGenres = async (req, res) => {
   const { name } = req.body
 
   try {
-    const genre = await Genres.create({
+    const alReadyExistsGenre = await Genres.findOne({
+      where: {
+        name,
+      },
+    })
+
+    if (alReadyExistsGenre) return res.status(200).json({ messaje: 'Genre already exists' })
+
+    const newGenre = await Genres.create({
       name,
     })
 
-    const id = genre.id
-
-    const newGenre = await Genres.findAll({
-      where: {
-        id,
-      },
+    const genreNew = await Genres.findByPk(newGenre.id, {
       attributes: ['id', 'name', 'createdAt', 'updatedAt'],
     })
 
-    res.status(201).json(newGenre)
+    res.status(201).json(genreNew)
   } catch (err) {
-    res.status(404).json({ error: err })
+    res.status(404).json({ messaje: 'No created', error: err })
   }
 }
 
@@ -62,10 +63,15 @@ export const putGenres = async (req, res) => {
   const { name } = req.body
 
   try {
-    const genreUpdate = await Genres.findOne({
+    const existsGenre = await Genres.findOne({
       where: {
-        id,
+        name,
       },
+    })
+
+    if (existsGenre) return res.status(200).json({ messaje: 'Genre already exists' })
+
+    const genreUpdate = await Genres.findByPk(id, {
       attributes: ['id', 'name', 'createdAt', 'updatedAt'],
     })
 
@@ -80,16 +86,14 @@ export const putGenres = async (req, res) => {
 }
 
 export const delGenres = async (req, res) => {
-  const { id } = req.params
-
   try {
-    const genre = await Genres.findByPk(id)
+    const delGenre = await Genres.findByPk(req.params.id)
 
-    genre.state = false
+    delGenre.state = false
 
-    await genre.save()
+    await delGenre.save()
 
-    res.status(200).json({ messaje: 'Eliminado' })
+    res.status(200).json({ messale: 'Genre Deleted' })
   } catch (err) {
     res.status(404).json({ error: err })
   }
