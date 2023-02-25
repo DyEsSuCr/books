@@ -1,7 +1,7 @@
 import { useLoaderData, Link } from 'react-router-dom'
 
 export function BookDetail() {
-  const { book, genres } = useLoaderData()
+  const { book, genres, authors } = useLoaderData()
 
   return (
     <>
@@ -9,13 +9,18 @@ export function BookDetail() {
         <Link>{book.tittle}</Link>
         <p>{book.subtitle}</p>
         <img className="max-w-lg" src={book.image} alt={book.tittle} />
-        {genres.map((genre) => {
-          return (
-            <div key={genre.id}>
-              <span>{genre.name}</span>
-            </div>
-          )
-        })}
+        <h2 className="font-bold">Genres</h2>
+        <div className="flex gap-4">
+          {genres.map((genre) => {
+            return <span key={genre.id}>{genre.name}</span>
+          })}
+        </div>
+        <h2 className="font-bold">Authors</h2>
+        <div className="flex gap-4">
+          {authors.map((author) => {
+            return <span key={author.id}>{author.name}</span>
+          })}
+        </div>
       </div>
     </>
   )
@@ -28,5 +33,8 @@ export async function loaderBookDetail({ params }) {
   const resGenres = await fetch(`http://localhost:3000/api/books/${book.id}/genres`)
   const genres = await resGenres.json()
 
-  return { book, genres }
+  const resAuthor = await fetch(`http://localhost:3000/api/books/${book.id}/authors`)
+  const authors = await resAuthor.json()
+
+  return { book, genres, authors }
 }
