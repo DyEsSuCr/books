@@ -2,19 +2,19 @@ import { Formik, Form, Field } from 'formik'
 
 export function FormBooks() {
   return (
-    <>
+    <div className="bg-gray-600 max-w-screen-md p-4 fixed top-0 left-0 right-0 mt-8 mx-auto">
       <Formik
         initialValues={{
           tittle: '',
           subtitle: '',
           publiched_date: '',
           image: '',
-          favorite: '',
+          favorite: false,
         }}
         onSubmit={(values, { resetForm }) => {
           resetForm()
 
-          console.log({ values })
+          console.log(values)
         }}
       >
         {() => {
@@ -26,36 +26,11 @@ export function FormBooks() {
               <Field type="file" name="image" />
               <Field type="checkbox" name="favorite" />
 
-              <Field type="submit" value="enviar" />
+              <button type="submit">Enviar</button>
             </Form>
           )
         }}
       </Formik>
-    </>
+    </div>
   )
-}
-
-{
-  /* <Formik
-initialValues={{
-  name: '',
-}}
-validate={({ name }) => {
-  if (!name) console.error('Ingresa el nombre')
-}}
-onSubmit={(values, { resetForm }) => {
-  resetForm()
-}}
->
-{() => {
-  return (
-    <Form>
-      <label htmlFor="name">Name Genres</label>
-      <Field type="text" name="name" placeholder="name" />
-
-      <input type="submit" />
-    </Form>
-  )
-}}
-</Formik> */
 }

@@ -102,6 +102,16 @@ export const postBooks = async (req, res) => {
 }
 
 export const putBooks = async (req, res) => {
+  const { image, tittle, subtitle, publiched_date, favorite } = req.body
+
+  console.log({
+    image,
+    tittle,
+    subtitle,
+    publiched_date,
+    favorite,
+  })
+
   res.json({ messaje: 'PUT Books' })
 }
 

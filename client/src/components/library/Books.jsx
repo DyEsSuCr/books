@@ -7,7 +7,7 @@ export function Books({ books }) {
         ? books.map((book) => {
             return <Book key={book.id} book={book} />
           })
-        : 'cargando'}
+        : 'Cargando'}
     </>
   )
 }
