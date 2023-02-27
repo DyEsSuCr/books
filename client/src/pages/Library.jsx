@@ -4,18 +4,12 @@ import { Books } from '../components/library/Books'
 import { BookContext } from '../context/BooksContext'
 
 export function Library() {
-  const { data, setData } = useContext(BookContext)
-
-  const createBook = () => {}
-
-  const updateBook = () => {}
-
-  const deleteBook = () => {}
+  const { books } = useContext(BookContext)
 
   return (
     <>
       <h1 className="text-center text-3xl font-semibold py-8">Library</h1>
-      <Books books={data} />
+      <Books books={books} />
     </>
   )
 }

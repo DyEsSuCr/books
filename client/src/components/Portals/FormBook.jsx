@@ -1,13 +1,16 @@
 import { Formik, Form, Field } from 'formik'
-import { useState, useEffect } from 'react'
+import { useState, useContext } from 'react'
 import { createPortal } from 'react-dom'
+
 import { FormGenres } from './FormGenres'
 import { helpFetch } from '../../helpers/helpFetch'
+import { GenresContext } from '../../context/GenresContext'
+import { AuthorsContext } from '../../context/AuthorsContext'
 
 export function FormBooks() {
-  const [genres, setGenres] = useState([])
-  const [authors, setAuthors] = useState([])
   const [visible, setVisible] = useState(false)
+  const { genres, setGenres } = useContext(GenresContext)
+  const { authors, setAuthors } = useContext(AuthorsContext)
 
   const createGenre = (data) => {
     let options = {
@@ -27,21 +30,6 @@ export function FormBooks() {
 
     setVisible(false)
   }
-
-  const fetchGenresAuthors = async (url1, url2) => {
-    const resGenres = await fetch(url1)
-    const genres = await resGenres.json()
-
-    const resAuthors = await fetch(url2)
-    const authors = await resAuthors.json()
-
-    setGenres(genres)
-    setAuthors(authors)
-  }
-
-  useEffect(() => {
-    fetchGenresAuthors('http://localhost:3000/api/genres/', 'http://localhost:3000/api/authors/')
-  }, [])
 
   return (
     <div className="bg-gray-600 max-w-screen-md p-4 fixed top-0 left-0 right-0 mt-8 mx-auto">
