@@ -1,13 +1,16 @@
 import { Outlet } from 'react-router-dom'
 
 import { NavBar } from '../components/Portals/NavBar'
+import { BoookProvider } from '../context/BooksContext'
 
 export function Root() {
   return (
     <>
       <main>
-        <NavBar />
-        <Outlet />
+        <BoookProvider>
+          <NavBar />
+          <Outlet />
+        </BoookProvider>
       </main>
     </>
   )

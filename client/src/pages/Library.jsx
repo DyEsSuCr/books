@@ -1,19 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useContext } from 'react'
+
 import { Books } from '../components/library/Books'
+import { BookContext } from '../context/BooksContext'
 
 export function Library() {
-  const [books, setBooks] = useState([])
-
-  const ApiFetch = async (url) => {
-    const res = await fetch(url)
-    const books = await res.json()
-
-    setBooks(books)
-  }
-
-  useEffect(() => {
-    ApiFetch('http://localhost:3000/api/books/')
-  }, [])
+  const { data, setData } = useContext(BookContext)
 
   const createBook = () => {}
 
@@ -24,7 +15,7 @@ export function Library() {
   return (
     <>
       <h1 className="text-center text-3xl font-semibold py-8">Library</h1>
-      <Books books={books} />
+      <Books books={data} />
     </>
   )
 }
