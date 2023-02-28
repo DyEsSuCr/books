@@ -72,19 +72,22 @@ export const getBooks = async (req, res) => {
 
 export const postBooks = async (req, res) => {
   const { tittle, subtitle, authors, genres, publiched_date, favorite } = req.body
-  const image = req.file.filename
+
+  const genress = genres.split(',')
+  const authorss = authors.split(',')
 
   try {
-    console.log({ tittle, subtitle, authors, genres, publiched_date, favorite, image })
-    /* const allGenres = await Genres.findAll({
+    // console.log({ tittle, subtitle, authors, genres, publiched_date, favorite })
+
+    const allGenres = await Genres.findAll({
       where: {
-        name: genres,
+        name: genress,
       },
     })
 
     const allAuthor = await Authors.findAll({
       where: {
-        name: authors,
+        name: authorss,
       },
     })
 
@@ -97,7 +100,7 @@ export const postBooks = async (req, res) => {
     })
 
     await newBook.setGenres(allGenres)
-    await newBook.setAuthors(allAuthor) */
+    await newBook.setAuthors(allAuthor)
 
     res.json('newBook')
   } catch (err) {

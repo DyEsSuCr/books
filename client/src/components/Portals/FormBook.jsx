@@ -7,12 +7,15 @@ import { FormAuthor } from './FormAuthors'
 import { helpFetch } from '../../helpers/helpFetch'
 import { GenresContext } from '../../context/GenresContext'
 import { AuthorsContext } from '../../context/AuthorsContext'
+import { BookContext } from '../../context/BooksContext'
 
 export function FormBooks() {
   const [visible, setVisible] = useState(false)
   const [visibleAuthor, setVisibleAuthor] = useState(false)
+
   const { genres, setGenres } = useContext(GenresContext)
   const { authors, setAuthors } = useContext(AuthorsContext)
+  const { books, setbooks } = useContext(BookContext)
 
   const createGenre = (data) => {
     let options = {
@@ -52,6 +55,15 @@ export function FormBooks() {
     setVisibleAuthor(false)
   }
 
+  const createBoook = async (data) => {
+    const res = await fetch('http://localhost:3000/api/books/', {
+      method: 'POST',
+      body: data,
+    })
+
+    if (res.ok) setbooks([...books, res])
+  }
+
   return (
     <div className="bg-gray-600 max-w-screen-md p-4 fixed top-0 left-0 right-0 mt-8 mx-auto">
       <Formik
@@ -66,19 +78,35 @@ export function FormBooks() {
           authors: [],
         }}
         onSubmit={(values, { resetForm }) => {
-          resetForm()
+          let formData = new FormData()
 
-          console.log(values)
+          formData.append('tittle', values.tittle)
+          formData.append('subtitle', values.subtitle)
+          formData.append('publiched_date', values.publiched_date)
+          formData.append('image', values.image)
+          formData.append('favorite', values.favorite)
+          formData.append('genres', values.genres)
+          formData.append('authors', values.authors)
+
+          createBoook(formData)
         }}
       >
-        {() => {
+        {({ setFieldValue }) => {
           return (
             <Form className="flex flex-col gap-2 justify-center">
               <Field type="text" name="tittle" placeholder="tittle" />
               <Field type="text" name="subtitle" placeholder="subtitle" />
               <Field type="date" name="publiched_date" />
-              <Field type="file" name="image" />
               <Field type="checkbox" name="favorite" />
+
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={(e) => {
+                  setFieldValue('image', e.currentTarget.files[0])
+                }}
+              />
 
               <Field component="select" id="genres" name="genres" multiple={true} as="select">
                 {genres.map((genre) => {
