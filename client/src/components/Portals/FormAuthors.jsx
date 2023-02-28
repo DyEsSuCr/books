@@ -1,8 +1,8 @@
 import { Formik, Form, Field } from 'formik'
 
-export function FormGenres({ createGenre }) {
+export function FormAuthor({ createAuthor }) {
   return (
-    <div className="bg-indigo-400 max-w-screen-md p-4 fixed top-0 left-0 right-0 mt-8 mx-auto">
+    <div className="bg-indigo-600 max-w-screen-md p-4 fixed top-0 left-0 right-0 mt-8 mx-auto">
       <Formik
         initialValues={{
           name: '',
@@ -10,7 +10,7 @@ export function FormGenres({ createGenre }) {
         onSubmit={(values, { resetForm }) => {
           resetForm()
 
-          createGenre(values)
+          createAuthor(values)
         }}
       >
         {() => {
@@ -18,7 +18,7 @@ export function FormGenres({ createGenre }) {
             <Form>
               <Field type="text" name="name" placeholder="name" />
 
-              <button type="submit">Create Genre</button>
+              <button type="submit">Create Author</button>
             </Form>
           )
         }}
